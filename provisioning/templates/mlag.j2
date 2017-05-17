@@ -1,0 +1,31 @@
+{% if configure_mlag %}
+# Reset to defaults. Be sure to run these things in config sessions:
+default mlag configuration
+default interface port-channel {{ mlag_channel }}
+
+{% for iface in mlag_peerlink_interfaces %}
+default interface {{ iface }}
+
+interface {{ iface }}
+  description MLAG Peer link member port to {{ mlag_peer }}
+  channel-group {{ mlag_channel }} mode active
+  no switchport
+{% endfor %}
+
+interface port-channel {{ mlag_channel }}
+  description MLAG Peer link
+  switchport mode trunk
+  switchport trunk group mlagpeer
+
+vlan {{ mlag_control_vlan }}
+  trunk group mlagpeer
+
+interface Vlan{{ mlag_control_vlan }}
+  ip address {{ mlag_ip }}
+
+mlag configuration
+  local-interface vlan {{ mlag_control_vlan }}
+  peer-address {{ peer_ip }}
+  peer-link port-channel {{ mlag_channel }}
+  domain-id {{ mlag_domain_id }}
+{% endif %}

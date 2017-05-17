@@ -1,0 +1,7 @@
+provider:
+  username: 'vagrant'
+  password: 'vagrant'
+
+mlag_control_vlan: '4094'
+mlag_domain_id: 'mlag1'
+

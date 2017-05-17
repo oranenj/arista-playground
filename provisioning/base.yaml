@@ -1,0 +1,14 @@
+- hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: "Base config"
+      eos_config:
+        src: 'templates/{{ item }}.j2'
+        provider: '{{ provider }}'
+        match: none
+      with_items:
+          - 'base'
+          - 'mlag'
+          - 'port_channels'
+          - 'vlans'

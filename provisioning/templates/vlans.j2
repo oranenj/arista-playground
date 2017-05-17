@@ -1,0 +1,12 @@
+{% for vlan in vlans %}
+no vlan {{ vlan['id'] }}
+vlan {{ vlan['id'] }}
+  {% for group in vlan.get('trunkgroups', []) %}
+  trunk group {{ group }}
+  {% endfor %}
+
+{% if vlan.get('address') %}
+interface vlan {{ vlan['id'] }}
+  ip address {{ vlan['address'] }}
+{% endif %}
+{% endfor %}

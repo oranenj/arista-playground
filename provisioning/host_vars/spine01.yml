@@ -1,0 +1,27 @@
+configure_mlag: true
+mlag_peerlink_interfaces:
+  - 'Ethernet 3'
+mlag_channel: '10'
+mlag_peer: 'spine02'
+mlag_ip: '100.64.0.1/30'
+peer_ip: '100.64.0.2'
+
+port_channels:
+    #leaf3
+  - index: 3
+    members:
+      - 'Ethernet 1'
+    trunkgroups: ['test']
+    mlag: true
+    #leaf4
+  - index: 4
+    members:
+      - 'Ethernet 2'
+    trunkgroups: ['test']
+    mlag: true
+
+vlans:
+  - id: 100
+    trunkgroups: ['test']
+  - id: 101
+    trunkgroups: ['test']

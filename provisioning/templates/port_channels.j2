@@ -1,0 +1,19 @@
+{% for channel in port_channels %}
+default interface port-channel {{ channel['index'] }}
+{% for member in channel['members'] %}
+default interface {{ member }}
+interface {{ member }}
+  description port-channel {{ channel['index'] }} member port
+  channel-group {{ channel['index'] }} mode active
+  no switchport
+{% endfor %}
+
+interface port-channel {{ channel['index'] }}
+  switchport mode trunk
+  {% for group in channel.get('trunkgroups', []) %}
+  switchport trunk group {{ group }}
+  {% endfor %}
+  {% if channel.get('mlag') %}
+  mlag {{ channel['index'] }}
+  {% endif %}
+{% endfor %}

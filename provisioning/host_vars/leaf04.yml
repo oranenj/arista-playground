@@ -1,0 +1,15 @@
+configure_mlag: false
+port_channels:
+  - index: 4
+    members:
+      - 'Ethernet 1'
+      - 'Ethernet 2'
+    trunkgroups: ['test']
+
+vlans:
+  - id: 100
+    trunkgroups: ['test']
+    address: '100.65.0.4/24'
+  - id: 101
+    trunkgroups: ['test']
+    address: '100.65.1.4/24'
